@@ -85,18 +85,29 @@ def add_video_to_playlist(youtube, video_id, playlist_title=DEFAULT_PLAYLIST_TIT
                 }
             ).execute()
             playlist_id = new_pl["id"]
+            import time
+            time.sleep(3)
 
         print(f"[youtube] Adding video {video_id} to playlist {playlist_id}...")
-        youtube.playlistItems().insert(
-            part="snippet",
-            body={
-                "snippet": {
-                    "playlistId": playlist_id,
-                    "resourceId": {"kind": "youtube#video", "videoId": video_id}
-                }
-            }
-        ).execute()
-        print("[youtube] ✅ Video successfully added to playlist!")
+        import time
+        for attempt in range(3):
+            try:
+                youtube.playlistItems().insert(
+                    part="snippet",
+                    body={
+                        "snippet": {
+                            "playlistId": playlist_id,
+                            "resourceId": {"kind": "youtube#video", "videoId": video_id}
+                        }
+                    }
+                ).execute()
+                print("[youtube] ✅ Video successfully added to playlist!")
+                break
+            except Exception as pe:
+                if attempt < 2:
+                    time.sleep(4)
+                else:
+                    raise pe
     except Exception as e:
         print(f"[youtube] ⚠️ Playlist notice: {e}")
 
