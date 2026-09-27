@@ -64,9 +64,10 @@ class PokemonBattleRenderer:
         else:
             bar_col = (235, 55, 55) # Red danger
 
-        fill_w = int(w * ratio)
-        if fill_w > 0:
-            draw.rectangle([x + 2, y + 2, x + fill_w - 2, y + h - 2], fill=bar_col)
+        if current_hp > 0:
+            fill_w = max(6, int(w * ratio))
+            right_x = max(x + 4, min(x + w - 2, x + fill_w))
+            draw.rectangle([x + 2, y + 2, right_x, y + h - 2], fill=bar_col)
 
     def draw_arrow(self, draw: ImageDraw.ImageDraw, p1, p2, color=(235, 55, 55), width=12):
         """Draws an action arrow from attacker to defender platform."""
