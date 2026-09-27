@@ -1,0 +1,18 @@
+# Secrets & API Credentials
+token*.json
+*token*
+*.env
+*.key
+
+# Output media & large assets
+recordings/*
+!recordings/.gitkeep
+voiceover/*
+!voiceover/.gitkeep
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+env/
